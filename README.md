@@ -8,7 +8,7 @@
 
 Faça um git clone no projeto na sua pasta de escolha:
 
-    git clone git@github.com:handersonbf/jantarDosFilosofos.git
+    git clone git@github.com:handersonbf/estudoActorBased.git
 
 Acessando a pasta do projeto execute:
 
