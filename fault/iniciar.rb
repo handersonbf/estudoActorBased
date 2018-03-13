@@ -12,36 +12,44 @@ class Iniciar
     end
 
     def simular_actor_crashed
-        p 'Vítima na cena...'
+        
         Celluloid::Actor[:vitima] = Vitima.new
-        p 'Paramédico foi chamado...'
-        Celluloid::Actor[:paramedico] = Paramedico.new
-        p 'O curioso chega...'
+        vitima = Celluloid::Actor[:vitima] 
+        paramedico = Celluloid::Actor[:paramedico] = Paramedico.new
+        paramedico.link vitima
+
         Celluloid::Actor[:curioso] = Curioso.new
+
         p 'Hospital fica esperando dar merda...'
         Hospital.run!
         
+        
         sleep 1
-    
-        Celluloid::Actor[:vitima].acidentada 'Primeira vitima'
-        p "1 -> #{Celluloid::Actor[:vitima]}"
-        Celluloid::Actor[:paramedico].acidentada 'Primeira vitima..'
+
+        vitima.acidentada 'Primeira vitima'
+        # p "1 -> #{Celluloid::Actor[:vitima]}"
+        Celluloid::Actor[:paramedico].acidentada 'Paramedico vai atender PRIMEIRA vitima..'
         Celluloid::Actor[:curioso].tirar_foto
 
         sleep 1
 
         Celluloid::Actor[:vitima] = VitimaAcidentada.new
-        p "2 -> #{Celluloid::Actor[:vitima]}"
+        vitima =  Celluloid::Actor[:vitima] 
+        paramedico.link Celluloid::Actor[:vitima]
+        
+        # p "2 -> #{Celluloid::Actor[:vitima]}"
         Celluloid::Actor[:vitima].acidentada 'Segunda vitima'
-        Celluloid::Actor[:paramedico].acidentada 'Segunda vitima..'
+        Celluloid::Actor[:paramedico].acidentada 'Paramedico vai atender SEGUNDA vitima..'
         Celluloid::Actor[:curioso].tirar_foto
-
+        
         sleep 1
-
+        
         Celluloid::Actor[:vitima] = Vitima.new
-        p "2 -> #{Celluloid::Actor[:vitima]}"
+        vitima =  Celluloid::Actor[:vitima] 
+        paramedico.link vitima
+        # p "2 -> #{Celluloid::Actor[:vitima]}"
         Celluloid::Actor[:vitima].acidentada 'Terceira vitima'
-        Celluloid::Actor[:paramedico].acidentada 'Terceiras vitima..'
+        Celluloid::Actor[:paramedico].acidentada 'Paramedico vai atender TERCEIRA vitima..'
         Celluloid::Actor[:curioso].tirar_foto
     end
 end

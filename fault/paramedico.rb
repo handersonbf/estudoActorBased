@@ -5,7 +5,9 @@ class Paramedico
     include Celluloid
 
     def initialize
-        @vitima = Celluloid::Actor[:vitima]
+        p "Paramédico acionado e no local..."
+        # @vitima = VitimaAcidentada.new_link
+        @vitima = Celluloid::Actor[:vitima].new_link
         link @vitima
     end
 
